@@ -1,11 +1,11 @@
 {
   "name": "The Big Bang Gallery",
   "short_name": "BigBang",
-  "description": "Matrix-themed AI cosmic art gallery by Thomas J Butler",
+  "description": "Immersive AI cosmic art gallery by Thomas J Butler",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d0d0d",
-  "theme_color": "#00FF00",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
   "orientation": "portrait",
   "icons": [
     {
