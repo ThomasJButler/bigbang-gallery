@@ -1,0 +1,406 @@
+/* ==========================================================================
+   Big Bang Gallery Optimized Styles - Minimal & Fast
+   Author: Thomas J Butler
+   Version: 3.0.0
+   ========================================================================== */
+
+:root {
+    --matrix-green: #00FF00;
+    --matrix-purple: #FF00FF;
+    --matrix-black: #0d0d0d;
+    --glow: 10px;
+    --gap: 20px;
+}
+
+/* Minimal Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base */
+body {
+    background: var(--matrix-black);
+    color: var(--matrix-green);
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Matrix Canvas */
+#matrixCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-family: 'VT323', monospace;
+    text-align: center;
+    text-shadow: 0 0 var(--glow) var(--matrix-green);
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: 0.2rem;
+}
+
+h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin: 2rem 0 1rem;
+}
+
+h3 {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--matrix-purple);
+    text-shadow: 0 0 var(--glow) var(--matrix-purple);
+}
+
+p {
+    color: var(--matrix-purple);
+    font-family: 'VT323', monospace;
+    text-align: center;
+    margin: 1rem auto;
+    max-width: 800px;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+/* Links */
+a {
+    color: var(--matrix-green);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+a:hover {
+    color: var(--matrix-purple);
+    text-shadow: 0 0 var(--glow) var(--matrix-purple);
+}
+
+/* Header */
+header {
+    background: rgba(13, 13, 13, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--matrix-green);
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Liverpool Badge Integration */
+header .liverpool-badge {
+    margin-top: 0.5rem;
+}
+
+/* Navigation */
+nav {
+    position: relative;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 10px;
+    background: none;
+    border: none;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 2px;
+    background: var(--matrix-green);
+    transition: all 0.3s;
+}
+
+/* Main Content */
+main {
+    margin-top: 140px;
+    padding: 0 20px;
+}
+
+.art-intro {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+/* Optimized Gallery Grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--gap);
+    max-width: 1400px;
+    margin: 0 auto;
+    grid-auto-flow: dense;
+}
+
+/* Gallery Items - Direct Styling */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+    min-height: 250px;
+    transform: translateZ(0);
+    will-change: transform;
+    contain: layout style paint;
+}
+
+/* Loading state */
+.gallery-item.loading {
+    background: rgba(0, 255, 0, 0.02);
+}
+
+.gallery-item.loading img {
+    filter: blur(5px);
+    transform: scale(1.1);
+}
+
+.gallery-item.loaded img {
+    animation: imageReveal 0.4s ease-out;
+}
+
+@keyframes imageReveal {
+    from {
+        filter: blur(5px);
+        transform: scale(1.1);
+    }
+    to {
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+.gallery-item[data-size="wide"] {
+    grid-column: span 2;
+}
+
+.gallery-item[data-size="tall"] {
+    grid-row: span 2;
+}
+
+.gallery-item[data-size="wide tall"] {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+    display: block;
+}
+
+/* Hover Effects */
+.gallery-item:hover {
+    border-color: var(--matrix-purple);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 0 30px rgba(255, 0, 255, 0.5),
+        0 0 60px rgba(255, 0, 255, 0.3);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background: rgba(13, 13, 13, 0.9);
+    border-top: 2px solid var(--matrix-green);
+    padding: 3rem 20px 2rem;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--matrix-green);
+    border-radius: 5px;
+}
+
+.social-links a:hover {
+    background: rgba(0, 255, 0, 0.1);
+    border-color: var(--matrix-purple);
+    transform: translateY(-3px);
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--matrix-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    transition: opacity 0.5s;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-text {
+    font-family: 'VT323', monospace;
+    font-size: 2rem;
+    color: var(--matrix-green);
+    text-shadow: 0 0 20px var(--matrix-green);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border: 2px solid var(--matrix-green);
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: var(--matrix-green);
+    font-size: 3rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.lightbox-close:hover {
+    color: var(--matrix-purple);
+    transform: rotate(90deg);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+    
+    nav ul {
+        position: absolute;
+        top: 40px;
+        left: -20px;
+        right: -20px;
+        background: rgba(13, 13, 13, 0.95);
+        flex-direction: column;
+        padding: 2rem;
+        transform: translateY(-150%);
+        opacity: 0;
+        transition: all 0.3s;
+    }
+    
+    nav.active ul {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+    }
+    
+    .gallery-item[data-size="wide"],
+    .gallery-item[data-size="tall"],
+    .gallery-item[data-size="wide tall"] {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .social-links {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Focus Styles */
+:focus {
+    outline: 2px solid var(--matrix-purple);
+    outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

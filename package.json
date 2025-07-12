@@ -1,0 +1,25 @@
+{
+  "name": "bigbang-gallery",
+  "version": "2.0.0",
+  "description": "Matrix-themed AI art gallery with cosmic visuals",
+  "author": "Thomas J Butler",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build required'",
+    "preview": "npx serve .",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "ai-art",
+    "matrix",
+    "gallery",
+    "cosmic",
+    "midjourney",
+    "interactive"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ThomasJButler/bigbang-gallery.git"
+  }
+}
