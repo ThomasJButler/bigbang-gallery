@@ -4,15 +4,17 @@
  * @author Thomas J Butler
  */
 
-const CACHE_NAME = 'bigbang-gallery-v2.0.0';
+const CACHE_NAME = 'bigbang-gallery-v3.0.0';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/css/styles-enhanced.css',
-    '/js/gallery-enhanced.js',
+    '/css/styles.css',
+    '/js/gallery.js',
     '/manifest.json',
-    'https://fonts.googleapis.com/css2?family=VT323&display=swap',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'
+    '/images/icon-32.png',
+    '/images/icon-192.png',
+    '/images/icon-512.png',
+    'https://fonts.googleapis.com/css2?family=VT323&display=swap'
 ];
 
 // Install event - cache assets
