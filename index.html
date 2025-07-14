@@ -1,342 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Big Bang Gallery - Thomas J Butler</title>
-    <meta name="description" content="Beautiful AI art gallery showcasing 50+ cosmic artworks generated with MidJourney v5 by Thomas J Butler">
-    
-    <!-- Enhanced SEO Meta Tags -->
-    <meta name="keywords" content="AI art, MidJourney, cosmic art, Thomas J Butler, Liverpool tech, digital gallery, art showcase">
-    <meta name="author" content="Thomas J Butler">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="The Big Bang Gallery - AI Cosmic Art">
-    <meta property="og:description" content="Explore 50+ stunning AI-generated cosmic artworks in a beautiful interactive gallery">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://bigbang-gallery.vercel.app">
-    <meta property="og:image" content="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="The Big Bang Gallery">
-    <meta name="twitter:description" content="Beautiful AI cosmic art gallery by Thomas J Butler">
-    <meta name="twitter:image" content="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#6366f1">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-32.png">
-    
-    <!-- Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-    
-    <!-- Critical CSS inline -->
-    <style>
-        :root{--primary-bg:#ffffff;--secondary-bg:#f8f9fa;--text-primary:#1a1a1a;--text-secondary:#6c757d;--accent:#6366f1}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:var(--primary-bg);color:var(--text-primary);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;overflow-x:hidden}
-        header{background:rgba(255,255,255,0.9);border-bottom:1px solid #e5e7eb;padding:1.5rem;position:fixed;top:0;width:100%;z-index:1000;backdrop-filter:blur(10px)}
-        h1{font-size:3rem;font-weight:700;margin:0;letter-spacing:-0.02em}
-        h3{font-size:1.5rem;color:var(--text-secondary);font-weight:400;margin:0.5rem 0}
-        main{margin-top:120px;padding:0 20px}
-        .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:1400px;margin:0 auto}
-        .gallery-item{position:relative;overflow:hidden;border-radius:16px;background:#f8f9fa;min-height:250px;transition:all 0.3s ease;cursor:pointer}
-        .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease}
-        .gallery-item:hover{box-shadow:0 25px 50px -12px rgba(0,0,0,0.25)}
-        .gallery-item:hover img{transform:scale(1.1)}
-        .gallery-item[data-size="wide"]{grid-column:span 2}
-        .gallery-item[data-size="tall"]{grid-row:span 2}
-        .gallery-item[data-size="wide tall"]{grid-column:span 2;grid-row:span 2}
-    </style>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Main styles -->
     <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <!-- GSAP for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    
-    <!-- Tone.js for audio -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <!-- WebGL Canvas Container -->
-    <div id="galaxy-container">
-        <canvas id="galaxy-canvas"></canvas>
-        <canvas id="particle-canvas"></canvas>
-    </div>
-    
-    <!-- UI Overlay -->
-    <div id="ui-overlay">
-        <!-- Navigation Mode Selector -->
-        <div class="nav-modes">
-            <button class="nav-mode active" data-mode="grid">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                    <rect x="1" y="1" width="7" height="7"/>
-                    <rect x="12" y="1" width="7" height="7"/>
-                    <rect x="1" y="12" width="7" height="7"/>
-                    <rect x="12" y="12" width="7" height="7"/>
-                </svg>
-                <span>Grid</span>
-            </button>
-            <button class="nav-mode" data-mode="constellation">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-                    <circle cx="5" cy="5" r="2"/>
-                    <circle cx="15" cy="8" r="2"/>
-                    <circle cx="10" cy="15" r="2"/>
-                    <line x1="5" y1="5" x2="15" y2="8"/>
-                    <line x1="15" y1="8" x2="10" y2="15"/>
-                </svg>
-                <span>Constellation</span>
-            </button>
-            <button class="nav-mode" data-mode="timeline">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                    <rect x="2" y="9" width="16" height="2"/>
-                    <circle cx="5" cy="10" r="2"/>
-                    <circle cx="10" cy="10" r="2"/>
-                    <circle cx="15" cy="10" r="2"/>
-                </svg>
-                <span>Timeline</span>
-            </button>
-            <button class="nav-mode" data-mode="cosmos">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-                    <circle cx="10" cy="10" r="8"/>
-                    <circle cx="10" cy="10" r="2" fill="currentColor"/>
-                    <ellipse cx="10" cy="10" rx="8" ry="3"/>
-                </svg>
-                <span>Cosmos</span>
-            </button>
-        </div>
-        
-        <!-- Audio Toggle -->
-        <button id="audio-toggle" class="control-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-            </svg>
-        </button>
-    </div>
-    
     <header>
         <div class="container">
-        <h1>Thomas J Butler</h1>
-        <h3>The Big Bang Gallery</h3>
-        <nav>
-            <button class="menu-toggle" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul>
-                <li><a href="https://thomasjbutler.co.uk">Back to Portfolio</a></li>
-            </ul>
-        </nav>
+            <h1>Thomas J Butler</h1>
+            <h3>The Big Bang Gallery</h3>
+            <nav>
+                <ul>
+                    <li><a href="https://thomasjbutler.co.uk">Back to Portfolio</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
     <main>
-        <section class="art-intro">
-            <h2>AI Generated Art Collection</h2>
-            <p>These were all generated with MidJourney v5 around February 2024. The idea was to create a custom mosaic using CSS all with different dimensions and sizes, hover effects and pull in the images. I hope you enjoy them!</p>
-        </section>
-        
-        <!-- Loading Indicator -->
-        <div id="loading-indicator" class="loading-indicator active">
-            <div class="cosmic-loader">
-                <div class="orbit orbit-1"></div>
-                <div class="orbit orbit-2"></div>
-                <div class="orbit orbit-3"></div>
+        <section class="art">
+            <div class="container">
+                <h2>AI Generated Cosmic Art Collection</h2>
+                <p>These were all generated with MidJourney v5 around February 2024. The idea was to create a custom mosaic using CSS all with different dimensions and sizes, hover effects and pull in the images. I hope you enjoy them!</p>
             </div>
-            <p>Initializing Cosmic Gallery...</p>
-        </div>
-        
-        <section class="gallery" data-webgl-enhanced="true">
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 1" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 2" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5cc791ca-ae23-4373-a5f2-b0daf1b55916_yysywp.png" alt="Cosmic Art 3" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1e036e17-0482-40f0-803c-bcda45527f86_ez1qml.png" alt="Cosmic Art 4" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687265/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0fa3584c-e868-451f-a25f-9f96fc02ceac_ddau8z.png" alt="Cosmic Art 5" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 6" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4f46daaa-f2d3-4be5-aae1-5c29901ffd4c_fs5m2r.png" alt="Cosmic Art 7" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 8" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_03df4f29-f49d-4d15-95f3-802cf831df45_hejxud.png" alt="Cosmic Art 9" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_3a8a1080-34dc-4b67-9023-fca6d1350a6b_j8xm7q.png" alt="Cosmic Art 10" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687247/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1a7a6d03-5ef5-4e6b-8603-d9848ace24dd_deqg4n.png" alt="Cosmic Art 11" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0ae96b59-4644-455c-9233-5d0491996217_rnplrd.png" alt="Cosmic Art 12" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 13" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0ae96b59-4644-455c-9233-5d0491996217_rnplrd.png" alt="Cosmic Art 14" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 15" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687187/MyAmazingImage2_btc0lo.png" alt="Cosmic Art 16" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687183/MyAmazingImage_nyclm4.png" alt="Cosmic Art 17" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_03df4f29-f49d-4d15-95f3-802cf831df45_hejxud.png" alt="Cosmic Art 18" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 19" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5cc791ca-ae23-4373-a5f2-b0daf1b55916_yysywp.png" alt="Cosmic Art 20" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1e036e17-0482-40f0-803c-bcda45527f86_ez1qml.png" alt="Cosmic Art 21" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687265/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0fa3584c-e868-451f-a25f-9f96fc02ceac_ddau8z.png" alt="Cosmic Art 22" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 23" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4f46daaa-f2d3-4be5-aae1-5c29901ffd4c_fs5m2r.png" alt="Cosmic Art 24" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 25" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 26" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687256/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2a496bb8-04e7-4a12-8fab-b39fb76fe5b8_mdyb3g.png" alt="Cosmic Art 27" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_03df4f29-f49d-4d15-95f3-802cf831df45_hejxud.png" alt="Cosmic Art 28" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_3a8a1080-34dc-4b67-9023-fca6d1350a6b_j8xm7q.png" alt="Cosmic Art 29" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0ae96b59-4644-455c-9233-5d0491996217_rnplrd.png" alt="Cosmic Art 30" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 31" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 32" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687183/MyAmazingImage_nyclm4.png" alt="Cosmic Art 33" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 34" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 35" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687256/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2a496bb8-04e7-4a12-8fab-b39fb76fe5b8_mdyb3g.png" alt="Cosmic Art 36" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 37" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 38" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 39" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687256/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2a496bb8-04e7-4a12-8fab-b39fb76fe5b8_mdyb3g.png" alt="Cosmic Art 40" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_03df4f29-f49d-4d15-95f3-802cf831df45_hejxud.png" alt="Cosmic Art 41" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 42" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 43" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0ae96b59-4644-455c-9233-5d0491996217_rnplrd.png" alt="Cosmic Art 44" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_3a8a1080-34dc-4b67-9023-fca6d1350a6b_j8xm7q.png" alt="Cosmic Art 45" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="tall">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 46" loading="lazy">
-            </figure>
-            <figure class="gallery-item" data-size="wide">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687247/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1a7a6d03-5ef5-4e6b-8603-d9848ace24dd_deqg4n.png" alt="Cosmic Art 47" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 48" loading="lazy">
-            </figure>
-            <figure class="gallery-item">
-                <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1e036e17-0482-40f0-803c-bcda45527f86_ez1qml.png" alt="Cosmic Art 49" loading="lazy">
-            </figure>
         </section>
         
-        <footer>
-            <ul class="social-links">
-                <li><a href="https://github.com/tjbutler">GitHub</a></li>
-                <li><a href="https://linkedin.com/in/thomasjbutler">LinkedIn</a></li>
-                <li><a href="https://thomasjbutler.co.uk">Portfolio</a></li>
+        <div class="vincent-gallery">
+            <div class="vincent-container wide tall">
+                <div class="vincent-item" id="vincent-item-1">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 1" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-2">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5cc791ca-ae23-4373-a5f2-b0daf1b55916_yysywp.png" alt="Cosmic Art 2" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-3">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1e036e17-0482-40f0-803c-bcda45527f86_ez1qml.png" alt="Cosmic Art 3" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-4">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687265/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0fa3584c-e868-451f-a25f-9f96fc02ceac_ddau8z.png" alt="Cosmic Art 4" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-5">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 5" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-6">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4f46daaa-f2d3-4be5-aae1-5c29901ffd4c_fs5m2r.png" alt="Cosmic Art 6" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-7">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 7" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-8">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_03df4f29-f49d-4d15-95f3-802cf831df45_hejxud.png" alt="Cosmic Art 8" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-9">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_3a8a1080-34dc-4b67-9023-fca6d1350a6b_j8xm7q.png" alt="Cosmic Art 9" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide tall">
+                <div class="vincent-item" id="vincent-item-10">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687187/MyAmazingImage2_btc0lo.png" alt="Cosmic Art 10" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-11">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687247/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1a7a6d03-5ef5-4e6b-8603-d9848ace24dd_deqg4n.png" alt="Cosmic Art 11" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-12">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0ae96b59-4644-455c-9233-5d0491996217_rnplrd.png" alt="Cosmic Art 12" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-13">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687183/MyAmazingImage_nyclm4.png" alt="Cosmic Art 13" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-14">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 14" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-15">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687256/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2a496bb8-04e7-4a12-8fab-b39fb76fe5b8_mdyb3g.png" alt="Cosmic Art 15" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide tall">
+                <div class="vincent-item" id="vincent-item-16">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 16" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-17">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5cc791ca-ae23-4373-a5f2-b0daf1b55916_yysywp.png" alt="Cosmic Art 17" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-18">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1e036e17-0482-40f0-803c-bcda45527f86_ez1qml.png" alt="Cosmic Art 18" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-19">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687265/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0fa3584c-e868-451f-a25f-9f96fc02ceac_ddau8z.png" alt="Cosmic Art 19" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-20">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 20" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-21">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4f46daaa-f2d3-4be5-aae1-5c29901ffd4c_fs5m2r.png" alt="Cosmic Art 21" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-22">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 22" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-23">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_03df4f29-f49d-4d15-95f3-802cf831df45_hejxud.png" alt="Cosmic Art 23" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-24">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_3a8a1080-34dc-4b67-9023-fca6d1350a6b_j8xm7q.png" alt="Cosmic Art 24" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide tall">
+                <div class="vincent-item" id="vincent-item-25">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687247/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1a7a6d03-5ef5-4e6b-8603-d9848ace24dd_deqg4n.png" alt="Cosmic Art 25" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-26">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0ae96b59-4644-455c-9233-5d0491996217_rnplrd.png" alt="Cosmic Art 26" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-27">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 27" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-28">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687256/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2a496bb8-04e7-4a12-8fab-b39fb76fe5b8_mdyb3g.png" alt="Cosmic Art 28" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-29">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687187/MyAmazingImage2_btc0lo.png" alt="Cosmic Art 29" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-30">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687183/MyAmazingImage_nyclm4.png" alt="Cosmic Art 30" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide tall">
+                <div class="vincent-item" id="vincent-item-31">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 31" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-32">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5cc791ca-ae23-4373-a5f2-b0daf1b55916_yysywp.png" alt="Cosmic Art 32" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-33">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1e036e17-0482-40f0-803c-bcda45527f86_ez1qml.png" alt="Cosmic Art 33" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-34">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687265/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0fa3584c-e868-451f-a25f-9f96fc02ceac_ddau8z.png" alt="Cosmic Art 34" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-35">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 35" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-36">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4f46daaa-f2d3-4be5-aae1-5c29901ffd4c_fs5m2r.png" alt="Cosmic Art 36" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-37">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 37" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-38">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_03df4f29-f49d-4d15-95f3-802cf831df45_hejxud.png" alt="Cosmic Art 38" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-39">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687253/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_3a8a1080-34dc-4b67-9023-fca6d1350a6b_j8xm7q.png" alt="Cosmic Art 39" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide tall">
+                <div class="vincent-item" id="vincent-item-40">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687247/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1a7a6d03-5ef5-4e6b-8603-d9848ace24dd_deqg4n.png" alt="Cosmic Art 40" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-41">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0ae96b59-4644-455c-9233-5d0491996217_rnplrd.png" alt="Cosmic Art 41" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-42">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4cc6bde8-0c78-44ea-9f34-7b3e9d68a630_ivtbun.png" alt="Cosmic Art 42" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-43">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687256/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2a496bb8-04e7-4a12-8fab-b39fb76fe5b8_mdyb3g.png" alt="Cosmic Art 43" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-44">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687267/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5dd49868-2bb4-40bd-8e5b-645321bdde58_ehv91u.png" alt="Cosmic Art 44" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-45">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_5cc791ca-ae23-4373-a5f2-b0daf1b55916_yysywp.png" alt="Cosmic Art 45" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide tall">
+                <div class="vincent-item" id="vincent-item-46">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_1e036e17-0482-40f0-803c-bcda45527f86_ez1qml.png" alt="Cosmic Art 46" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container tall">
+                <div class="vincent-item" id="vincent-item-47">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687265/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_0fa3584c-e868-451f-a25f-9f96fc02ceac_ddau8z.png" alt="Cosmic Art 47" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-48">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687266/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2e5eef7e-66b7-420c-96b2-d6ff49fb9336_zq30vv.png" alt="Cosmic Art 48" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container wide">
+                <div class="vincent-item" id="vincent-item-49">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687260/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_4f46daaa-f2d3-4be5-aae1-5c29901ffd4c_fs5m2r.png" alt="Cosmic Art 49" loading="lazy">
+                </div>
+            </div>
+            <div class="vincent-container">
+                <div class="vincent-item" id="vincent-item-50">
+                    <img src="https://res.cloudinary.com/depqttzlt/image/upload/v1737687246/tommyprompts_The_birth_of_the_cosmos_through_intricate_ornate_A_2dce56a4-66d4-4d96-beeb-213dfe185b09_cemmfu.png" alt="Cosmic Art 50" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <ul>
+                <li><a href="https://www.linkedin.com/in/thomasbutleruk/" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="https://github.com/ThomasJButler" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://codepen.io/thomasbutler" target="_blank" rel="noopener">CodePen</a></li>
             </ul>
             <p>&copy; 2025 Thomas J Butler - AI and Web Development Expert. All rights reserved.</p>
-        </footer>
-    </main>
-    
-    <!-- Gesture Hint -->
-    <div id="gesture-hint" class="gesture-hint">
-        <p>Use mouse wheel to zoom • Drag to pan • Click images to explore</p>
-    </div>
+        </div>
+    </footer>
 
-    <!-- Core JavaScript Modules -->
-    <script type="module" src="js/core/GalaxyEngine.js"></script>
-    <script type="module" src="js/core/ParticleSystem.js"></script>
-    <script type="module" src="js/core/AudioEngine.js"></script>
-    <script type="module" src="js/core/NavigationModes.js"></script>
-    
-    <!-- Effects Modules -->
-    <script type="module" src="js/effects/ImageMorpher.js"></script>
-    <script type="module" src="js/effects/LightingEngine.js"></script>
-    <script type="module" src="js/effects/ColorExtractor.js"></script>
-    
-    <!-- Main Gallery Controller -->
-    <script type="module" src="js/gallery.js"></script>
+    <script src="js/gallery.js"></script>
 </body>
-</html> 
+
+</html>
