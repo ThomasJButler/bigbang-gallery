@@ -39,3 +39,10 @@ node_modules/
 tmp/
 temp/
 CLAUDE.md
+
+# Vite build outputs
+dist/
+.vite/
+
+# Vercel
+.vercel

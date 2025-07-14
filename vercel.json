@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 1,
   "name": "bigbang-gallery",
   "alias": ["bigbang-gallery.vercel.app"],
   "builds": [
