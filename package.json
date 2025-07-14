@@ -4,6 +4,7 @@
   "description": "Matrix-themed AI art gallery with cosmic visuals",
   "author": "Thomas J Butler",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
