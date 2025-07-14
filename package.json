@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && vercel --prod dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "deploy:manual": "npm run build && git add dist -f && git commit -m 'Deploy to gh-pages' && git subtree push --prefix dist origin gh-pages"
   },
   "keywords": [
     "ai-art",
@@ -23,6 +24,7 @@
     "url": "https://github.com/ThomasJButler/bigbang-gallery.git"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "vite": "^7.0.4"
   }
 }

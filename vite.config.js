@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // Base URL for deployment
-  base: './',
+  // Base URL for GitHub Pages deployment
+  base: '/bigbang-gallery/',
   
   // Build configuration
   build: {

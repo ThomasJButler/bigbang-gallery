@@ -84,7 +84,10 @@ npm run dev
 # Production build
 npm run build
 
-# Deploy to Vercel
+# Deploy to GitHub Pages (automatic)
+# Push to main branch and GitHub Actions will deploy
+
+# Or deploy manually
 npm run deploy
 ```
 
