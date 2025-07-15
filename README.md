@@ -2,6 +2,8 @@
 
 An epic cosmic art gallery showcasing AI-generated artwork with a stunning black theme and neon green accents. Built with Vite for blazing-fast performance.
 
+<img width="1473" height="854" alt="image" src="https://github.com/user-attachments/assets/21820b67-6a28-4e97-a3f2-ee15c26ba565" />
+
 ![Version](https://img.shields.io/badge/version-2.0.0-green)
 ![Vite](https://img.shields.io/badge/Vite-7.0-646CFF?logo=vite)
 ![License](https://img.shields.io/badge/license-MIT-blue)
