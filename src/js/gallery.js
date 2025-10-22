@@ -1,14 +1,21 @@
 /**
- * Big Bang Gallery - Performance Optimized
- * Smooth interactions without lag
+ * @author Tom Butler
+ * @date 2025-10-22
+ * @description Interactive gallery features: 3D tilt effects, scroll detection, lazy loading, keyboard navigation, and custom cursor.
  */
 
+/** @constructs Initialises gallery interactions once DOM is ready */
 document.addEventListener('DOMContentLoaded', function() {
-    // Gallery containers and elements
     const containers = document.querySelectorAll('.vincent-container');
     const header = document.querySelector('header');
-    
-    // Debounce function for performance
+
+    /**
+     * Debounce function - delays execution until the function stops being called for `wait` milliseconds.
+     * This prevents excessive function calls during rapid events like keyboard navigation.
+     * @param {Function} func - Function to debounce
+     * @param {number} wait - Delay in milliseconds
+     * @return {Function} Debounced function
+     */
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -20,8 +27,14 @@ document.addEventListener('DOMContentLoaded', function() {
             timeout = setTimeout(later, wait);
         };
     }
-    
-    // Throttle function for smooth animations
+
+    /**
+     * Throttle function - ensures function executes at most once per `limit` milliseconds.
+     * Used for performance-critical events like mousemove to maintain 60fps interactions.
+     * @param {Function} func - Function to throttle
+     * @param {number} limit - Minimum milliseconds between executions
+     * @return {Function} Throttled function
+     */
     function throttle(func, limit) {
         let inThrottle;
         return function(...args) {
@@ -33,23 +46,23 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
-    // Simple 3D tilt effect (throttled for performance)
+    // 3D tilt effect on mousemove - Heuristic 1: Calculate rotation based on mouse position relative to container centre
     containers.forEach(container => {
         const tiltEffect = throttle(function(e) {
             const rect = this.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
-            // Reduced rotation for smoother performance
+
+            // Heuristic 2: Scale rotation values (±8 degrees) relative to distance from centre for subtle effect
             const rotateX = ((y - centerY) / centerY) * -8;
             const rotateY = ((x - centerX) / centerX) * 8;
-            
-            // Use transform3d for better GPU acceleration
+
+            // Heuristic 3: Use translate3d and perspective for GPU acceleration to prevent layout thrashing
             this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-        }, 16); // ~60fps
+        }, 16); // Throttle to 16ms (~60fps) to avoid excessive repaints during mousemove events
         
         container.addEventListener('mousemove', tiltEffect);
         
@@ -57,8 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = '';
         });
     });
-    
-    // Optimized scroll handler
+
+    // Scroll-triggered header styling - Add 'scrolled' class when user scrolls past 100px to apply visual differentiation
     const handleScroll = throttle(() => {
         if (window.pageYOffset > 100) {
             header.classList.add('scrolled');
@@ -66,10 +79,10 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('scrolled');
         }
     }, 100);
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Efficient lazy loading
+
+    // Lazy load images using Intersection Observer to defer loading until elements are visible within 50px of viewport
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -81,43 +94,43 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '50px 0px',
         threshold: 0.01
     });
-    
+
     const images = document.querySelectorAll('.vincent-item img');
     images.forEach(img => imageObserver.observe(img));
-    
-    // Touch support (simplified)
+
+    // Touch support for mobile devices - scale feedback on touch events
     if ('ontouchstart' in window) {
         containers.forEach(container => {
             container.addEventListener('touchstart', function() {
                 this.style.transform = 'scale(0.98)';
             }, { passive: true });
-            
+
             container.addEventListener('touchend', function() {
                 this.style.transform = '';
             }, { passive: true });
         });
     }
-    
-    // Simple keyboard navigation
+
+    // Keyboard navigation using arrow keys - debounced to prevent rapid repeated scrolling
     let currentIndex = 0;
     const handleKeyNav = debounce((e) => {
         if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-            currentIndex = e.key === 'ArrowRight' 
+            currentIndex = e.key === 'ArrowRight'
                 ? (currentIndex + 1) % containers.length
                 : (currentIndex - 1 + containers.length) % containers.length;
-            
-            containers[currentIndex].scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
+
+            containers[currentIndex].scrollIntoView({
+                behaviour: 'smooth',
+                block: 'center'
             });
         }
     }, 100);
-    
+
     document.addEventListener('keydown', handleKeyNav);
-    
-    // Optional: Simple custom cursor (can be disabled for performance)
+
+    // Custom cursor - only enable on devices with hover and fine pointer support to avoid performance impact on touch devices
     const enableCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    
+
     if (enableCustomCursor) {
         const cursor = document.createElement('div');
         cursor.style.cssText = `
@@ -132,27 +145,25 @@ document.addEventListener('DOMContentLoaded', function() {
             mix-blend-mode: difference;
         `;
         document.body.appendChild(cursor);
-        
-        // Hide default cursor
+
         document.body.style.cursor = 'none';
-        
-        // Throttled cursor update
+
+        // Update cursor position throttled to 16ms (~60fps) to prevent excessive style recalculations
         const updateCursor = throttle((e) => {
             cursor.style.left = e.clientX - 10 + 'px';
             cursor.style.top = e.clientY - 10 + 'px';
         }, 16);
-        
+
         document.addEventListener('mousemove', updateCursor, { passive: true });
-        
-        // Show/hide cursor
+
         document.addEventListener('mouseenter', () => {
             cursor.style.opacity = '1';
         });
-        
+
         document.addEventListener('mouseleave', () => {
             cursor.style.opacity = '0';
         });
     }
-    
-    console.log('Big Bang Gallery - Optimized ⚡');
+
+    console.log('Big Bang Gallery - Initialised');
 });

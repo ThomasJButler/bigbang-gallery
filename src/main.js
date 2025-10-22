@@ -1,8 +1,10 @@
-// Import styles
-import './css/styles.css';
+/**
+ * @author Tom Butler
+ * @date 2025-10-22
+ * @description Big Bang Gallery application entry point. Initialises styles and interactive gallery features.
+ */
 
-// Import gallery functionality
+import './css/styles.css';
 import './js/gallery.js';
 
-// Log that the app is ready
-console.log('Big Bang Gallery - Vite Powered ⚡');
+console.log('Big Bang Gallery - Vite Powered');
