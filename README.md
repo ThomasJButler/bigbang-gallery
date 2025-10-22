@@ -25,41 +25,7 @@ A responsive web gallery showcasing AI-generated cosmic artwork with interactive
 git clone https://github.com/ThomasJButler/bigbang-gallery.git
 cd bigbang-gallery
 npm install
-```
-
-## Usage
-
-### Development
-
-```bash
 npm run dev
-```
-
-Starts the Vite development server on `http://localhost:3000` with hot module reloading.
-
-### Production Build
-
-```bash
-npm run build
-```
-
-Creates an optimised build in the `dist/` directory.
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
-
-Serves the production build locally for testing.
-
-### Deployment
-
-**Automatic:** Push to the `main` branch and GitHub Actions will automatically build and deploy to GitHub Pages.
-
-**Manual:**
-```bash
-npm run deploy
 ```
 
 ## Tech Stack
@@ -123,19 +89,6 @@ Internet Explorer is not supported.
 - **Total Bundle Size:** ~10KB gzipped
 - **Lighthouse Score:** 100/100
 - **Animation Performance:** 60fps
-
-## Code Standards
-
-- UK English spelling throughout (optimised, colour, etc.)
-- Professional comments explaining the "why" behind code decisions
-- JSDoc annotations for public functions
-- No emoji in code or comments
-
-For more details, see [Documentation/tom-code-comment-style-guide.md](Documentation/tom-code-comment-style-guide.md).
-
-## Contributing
-
-Contributions are welcome. Please submit issues and pull requests via GitHub.
 
 ## License
 
