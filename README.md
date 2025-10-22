@@ -1,6 +1,6 @@
-# Big Bang Gallery 🌌
+# Big Bang Gallery
 
-An epic cosmic art gallery showcasing AI-generated artwork with a stunning black theme and neon green accents. Built with Vite for blazing-fast performance.
+A responsive web gallery showcasing AI-generated cosmic artwork with interactive effects and optimised performance.
 
 <img width="1473" height="854" alt="image" src="https://github.com/user-attachments/assets/21820b67-6a28-4e97-a3f2-ee15c26ba565" />
 
@@ -8,113 +8,143 @@ An epic cosmic art gallery showcasing AI-generated artwork with a stunning black
 ![Vite](https://img.shields.io/badge/Vite-7.0-646CFF?logo=vite)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-## ✨ Features
+## Features
 
-- 🎨 **50+ AI-Generated Cosmic Artworks** - Created with MidJourney v5
-- 🖤 **Epic Black Theme** - Deep space aesthetic with neon green accents
-- 🎯 **3D Tilt Effects** - Smooth GPU-accelerated hover interactions
-- ⚡ **Lightning Fast** - Powered by Vite with optimized performance
-- 📱 **Fully Responsive** - Looks amazing on all devices
-- 🎮 **Keyboard Navigation** - Arrow keys to browse gallery
-- 🌟 **Custom Cursor** - Interactive cursor with hover states
+- **50+ AI-Generated Artworks** - Created with MidJourney v5
+- **Dark Theme** - Black background with neon green accents
+- **3D Tilt Effects** - GPU-accelerated hover interactions on gallery items
+- **Responsive Design** - Works on all devices and screen sizes
+- **Keyboard Navigation** - Use arrow keys to browse the gallery
+- **Custom Cursor** - Interactive cursor for supported devices
+- **Lazy Loading** - Images load only when visible in the viewport
+- **High Performance** - ~10KB gzipped, 60fps animations
 
-## 🚀 Quick Start
+## Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/ThomasJButler/bigbang-gallery.git
 cd bigbang-gallery
-
-# Install dependencies
 npm install
+```
 
-# Start development server
+## Usage
+
+### Development
+
+```bash
 npm run dev
+```
 
-# Build for production
+Starts the Vite development server on `http://localhost:3000` with hot module reloading.
+
+### Production Build
+
+```bash
 npm run build
+```
 
-# Preview production build
+Creates an optimised build in the `dist/` directory.
+
+### Preview Production Build
+
+```bash
 npm run preview
 ```
 
-## 📦 Tech Stack
+Serves the production build locally for testing.
 
-- **Frontend**: Vanilla JavaScript, CSS3 Grid
-- **Build Tool**: Vite 7.0
-- **Hosting**: Cloudinary CDN for images
-- **Performance**: GPU-accelerated transforms, lazy loading
-- **Bundle Size**: ~10KB total (gzipped)
+### Deployment
 
-## 🎨 Design Features
+**Automatic:** Push to the `main` branch and GitHub Actions will automatically build and deploy to GitHub Pages.
 
-### Visual Effects
-- Glass morphism header/footer
-- Neon green accent colors
-- Smooth 3D perspective tilts
-- Optimized hover animations
-- Custom scrollbar design
+**Manual:**
+```bash
+npm run deploy
+```
 
-### Performance Optimizations
-- Throttled mouse events (60fps)
-- Debounced keyboard navigation  
-- GPU-accelerated transforms
-- Lazy loaded images
-- Minimal bundle size
+## Tech Stack
 
-## 📂 Project Structure
+- **Framework:** Vanilla JavaScript (ES6+)
+- **Styling:** CSS3 (Grid, Flexbox, CSS Variables)
+- **Build Tool:** Vite 7.0
+- **CDN:** Cloudinary (images)
+- **Hosting:** GitHub Pages
+- **Bundle Size:** ~10KB gzipped (no framework overhead)
+
+## Project Structure
 
 ```
 bigbang-gallery/
 ├── src/
-│   ├── main.js         # Entry point
+│   ├── main.js           # Application entry point
 │   ├── css/
-│   │   └── styles.css  # Epic black theme styles
+│   │   └── styles.css    # Complete stylesheet with dark theme
 │   └── js/
-│       └── gallery.js  # Optimized interactions
-├── index.html          # Main gallery page
-├── vite.config.js      # Vite configuration
-└── package.json        # Project dependencies
+│       └── gallery.js    # Interactive features and effects
+├── index.html            # Gallery page with 50+ artworks
+├── vite.config.js        # Vite configuration
+├── package.json          # Project metadata and dependencies
+└── README.md             # This file
 ```
 
-## 🛠️ Development
+## Key Features Explained
 
-```bash
-# Development with hot reload
-npm run dev
+### 3D Tilt Effects
 
-# Production build
-npm run build
+Gallery items rotate in 3D space based on mouse position. The effect is throttled to 16ms intervals (~60fps) to maintain smooth performance even during rapid mouse movement.
 
-# Deploy to GitHub Pages (automatic)
-# Push to main branch and GitHub Actions will deploy
+### Lazy Loading
 
-# Or deploy manually
-npm run deploy
-```
+Images are loaded only when they enter the viewport (with a 50px buffer), reducing initial page load time. The Intersection Observer API handles this automatically without blocking the main thread.
 
-## 🎯 Performance Stats
+### Keyboard Navigation
 
-- **First Contentful Paint**: < 0.5s
-- **Total Bundle Size**: ~10KB gzipped
-- **Perfect Lighthouse Score**: 100/100
-- **60fps** smooth animations
+Arrow keys move between gallery items with smooth scrolling. Navigation is debounced at 100ms intervals to prevent excessive scrolling from rapid key presses.
 
-## 🤝 Contributing
+### Performance
 
-Contributions are welcome! Feel free to submit issues and pull requests.
+The entire application uses GPU-accelerated transforms (`translateZ`, `perspective`) and avoids layout-triggering operations. Event handlers are throttled to prevent performance degradation on rapid events:
+- Mousemove: 16ms throttle
+- Scroll: 100ms throttle
+- Keyboard: 100ms debounce
 
-## 📄 License
+## Browser Support
 
-MIT License - see [LICENSE](LICENSE) file for details.
+Works on all modern browsers that support:
+- ES6 JavaScript
+- CSS Grid and Flexbox
+- Intersection Observer API
 
-## 👤 Author
+Internet Explorer is not supported.
+
+## Performance Stats
+
+- **First Contentful Paint:** < 0.5s
+- **Total Bundle Size:** ~10KB gzipped
+- **Lighthouse Score:** 100/100
+- **Animation Performance:** 60fps
+
+## Code Standards
+
+- UK English spelling throughout (optimised, colour, etc.)
+- Professional comments explaining the "why" behind code decisions
+- JSDoc annotations for public functions
+- No emoji in code or comments
+
+For more details, see [Documentation/tom-code-comment-style-guide.md](Documentation/tom-code-comment-style-guide.md).
+
+## Contributing
+
+Contributions are welcome. Please submit issues and pull requests via GitHub.
+
+## License
+
+MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Author
 
 **Thomas J Butler**
+
 - Portfolio: [thomasjbutler.github.io](https://thomasjbutler.github.io/ThomasJButler/)
 - GitHub: [@ThomasJButler](https://github.com/ThomasJButler)
 - LinkedIn: [Thomas Butler](https://www.linkedin.com/in/thomasbutleruk/)
-
----
-
-Made with 💚 and AI magic ✨
